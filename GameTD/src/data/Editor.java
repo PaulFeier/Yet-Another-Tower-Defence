@@ -15,7 +15,12 @@ import UI.UI;
 import UI.UI.Menu;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
-
+/**
+ * This class is used for the EDITOR button in the main menu screen. This loads the custom map in the editor button option
+ * with all of it's assets like the tiles so you can go ahead and make your own custom map. The only limit is your imagination!
+ * @author Paul
+ *
+ */
 public class Editor {
 
 	private TileGrid grid;
@@ -36,7 +41,9 @@ public class Editor {
 		this.menuBackground = QuickLoad("menu_background_editor");
 		setupUI();
 	}
-	
+	/**
+	 * creates the said tiles like a button so the player can used them at their's leisure.
+	 */
 	private void setupUI() {
 		editorUI = new UI();
 		editorUI.createMenu("TilePicker", 1280, 115, 192, 960, 2, 0);
@@ -46,7 +53,10 @@ public class Editor {
 		tilePickerMenu.quickAdd("Water", "Water64");
 		tilePickerMenu.quickAdd("Back", "BackButton");
 	}
-
+	/**
+	 * If the player clicks on a tile, they can change the map however they desire.
+	 * Also, the button 'S' on the keyboard needs to be pressed in order to save their map.
+	 */
 	public void update() {
 		draw();
 		editorUI.drawString(1310, 520, "PRESS 'S'");
@@ -82,7 +92,9 @@ public class Editor {
 				StateManager.resetGame();
 		}
 	}
-	
+	/**
+	 * draws the edior menu
+	 */
 	private void draw() {
 		DrawQuadTex(menuBackground, 1280, 0, 192, 960);
 		grid.draw();

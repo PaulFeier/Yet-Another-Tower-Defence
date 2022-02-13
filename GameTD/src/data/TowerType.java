@@ -2,7 +2,11 @@ package data;
 
 import org.newdawn.slick.opengl.Texture;
 import static helpers.Artist.*;
-
+/**
+ * Enum for the type of towers with all of their properties.
+ * @author Paul
+ *
+ */
 public enum TowerType {
 	
 	Cannon(new Texture[] {QuickLoad("CannonBase64"), QuickLoad("TowerCannon64")}, ProjectileType.CannonBall, 2, 700, 2.5f, 20),

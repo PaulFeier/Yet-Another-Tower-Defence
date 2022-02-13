@@ -10,6 +10,11 @@ import UI.UI;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
 
+/**
+ * When the player wins, the PC 'cries' and displays a funny image crying.
+ * @author Paul
+ *
+ */
 public class GameWon {
 	private Texture background;
 	private UI menuUI;

@@ -32,9 +32,11 @@ import org.newdawn.slick.util.ResourceLoader;
 public class Artist {
 
 	public static final int WIDTH = 1472, HEIGHT = 960, TILE_SIZE = 64;
-
+	/**
+	 * Creates the main frame of the game.
+	 */
 	public static void BeginSession() {
-		Display.setTitle("Yet Another Tower Defence Beta 0.6");
+		Display.setTitle("Yet Another Tower Defence 1.0");
 		try {
 			Display.setDisplayMode(new DisplayMode(WIDTH, HEIGHT));
 			Display.create();
@@ -57,7 +59,13 @@ public class Artist {
 			return true;
 		return false;
 	}
-
+	/**
+	 * used to help me in the past with drawing on frame, not used anymore.
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public static void DrawQuad(float x, float y, float width, float height) {
 		glBegin(GL_QUADS);
 		glVertex2f(x, y); 					// Top left corner
@@ -66,7 +74,14 @@ public class Artist {
 		glVertex2f(x, y + height); 			// Bottom left corner
 		glEnd();
 	}
-	
+	/**
+	 * The current drawing method for the frame. It uses openGL.
+	 * @param tex
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 */
 	public static void DrawQuadTex(Texture tex, float x, float y, float width, float height) {
 		tex.bind();
 		glTranslatef(x, y, 0);	
@@ -83,7 +98,12 @@ public class Artist {
 		glEnd();
 		glLoadIdentity();
 	}
-	
+	/**
+	 * Loads a custom picture (preferably of 64 x 64 pix) into the game and can display it on the main frame.
+	 * @param path -> example: C:\Users\Paul\Desktop\image.png
+	 * @param fileType -> PNG, JPEG, etc. It only accepts PNG though.
+	 * @return the said texture 
+	 */
 	public static Texture LoadTexture(String path, String fileType) {		
 		Texture tex = null;
 		InputStream in = ResourceLoader.getResourceAsStream(path);
@@ -94,13 +114,26 @@ public class Artist {
 		}
 		return tex;
 	}
-	
-	public static Texture QuickLoad(String name) {		// pentru a nu mai sta sa scriu LoadTexture("NumeImagine.png", "PNG");
+	/**
+	 * A quick solution to load a texture in the game. Instead of writing LoadTexture("Resources/Image.png", "PNG"), you just
+	 * type QuickLoad("Image.png") and it makes your life much easier.
+	 * @param name -> name of the said image that you want to incorporate in the game
+	 * @return the texture of the image
+	 */
+	public static Texture QuickLoad(String name) {
 		Texture tex = null;	
-		tex = LoadTexture("Resources/" + name + ".png", "PNG");	// apelez QuickLoad rapid si face viata mai usoara
+		tex = LoadTexture("Resources/" + name + ".png", "PNG");	
 		return tex;
 	}
-	
+	/**
+	 * This method is used to animate the rotation of the towers which are used to shoot the enemies;
+	 * @param tex -> tower's texture
+	 * @param x 
+	 * @param y 
+	 * @param width 
+	 * @param height
+	 * @param angle
+	 */
 	public static void DrawQuadTexRotate(Texture tex, float x, float y, float width, float height, float angle) {
 		tex.bind();
 		glTranslatef(x + width / 2, y + height / 2, 0);	

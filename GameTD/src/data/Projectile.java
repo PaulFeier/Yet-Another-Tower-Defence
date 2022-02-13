@@ -6,7 +6,11 @@ import static helpers.Artist.TILE_SIZE;
 import static helpers.Clock.Delta;
 
 import org.newdawn.slick.opengl.Texture;
-
+/**
+ * Projectiles for the towers.
+ * @author Paul
+ *
+ */
 public abstract class Projectile implements Entity {
 	private Texture texture;
 	private float x, y, speed, xVelocity, yVelocity;
@@ -28,7 +32,9 @@ public abstract class Projectile implements Entity {
 		this.yVelocity = 0f;
 		calculateDirection();
 	}
-	
+	/**
+	 * calcultates in which direction to shoot the projectile.
+	 */
 	private void calculateDirection() {
 		try {
 			float totalAllowedMovement = 1.0f;
@@ -51,13 +57,17 @@ public abstract class Projectile implements Entity {
 		
 	}
 	
-	// da damage inamicului
+	/**
+	 * This is the damage method that takes away from the hit enemy's life.
+	 */
 	public void projDamage() {
 		target.damage(damage);
 		alive = false;
 	}
 	
-	// verifica daca bulletu o atins inamnicu, si daca da, face ca bulletu sa dispara
+	/**
+	 * This method verifies if the bullet has hit the enemy, if so, do the correspoding damage then make the bullet disappear.
+	 */
 	public void update() {
 		if (alive) {
 			calculateDirection();
@@ -76,7 +86,9 @@ public abstract class Projectile implements Entity {
 		}
 		
 	}
-
+	/**
+	 * draws the bullet on the screen.
+	 */
 	public void draw() {
 		DrawQuadTex(texture, x, y, TILE_SIZE / 2, TILE_SIZE / 2);
 	}

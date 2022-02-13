@@ -10,21 +10,28 @@ import java.util.ArrayList;
 import org.newdawn.slick.opengl.Texture;
 
 import UI.UI;
-
+/**
+ * The super class for the enemy. This has a lot of things regarding the enemy's properties.
+ * @author Paul
+ *
+ */
 public class Enemy implements Entity {
 	private int width, height, currentCheckpoint, cash;
 	private float speed, x, y, health, startHealth, hiddenHealth;
-	public static float healths;	// concept pentru a creste viata din 2 in 2 wave-uri.
 	private Texture texture, hpBackground, hpForeground, hpBorder;
 	private Tile startTile;
 	private boolean first, alive, reward = true;
 	private TileGrid grid;
 	private ArrayList<Checkpoint> checkpoints;
 	private int[] directions;
-	public static int contor = 0;
 	private UI enemyHealth;
 	
-	//constructor default
+	/**
+	 * Default constructor
+	 * @param tileX
+	 * @param tileY
+	 * @param grid
+	 */
 	public Enemy(int tileX, int tileY, TileGrid grid) {
 		this.texture = QuickLoad("EnemySlime64");
 		this.hpBackground = QuickLoad("HPBackground");
@@ -51,11 +58,19 @@ public class Enemy implements Entity {
 		this.currentCheckpoint = 0;
 		populateCheckpointList();
 	}
-	
+	/**
+	 * Main constructor
+	 * @param texture
+	 * @param startTile
+	 * @param grid
+	 * @param width
+	 * @param height
+	 * @param speed
+	 * @param health
+	 * @param cash
+	 */
 	public Enemy(Texture texture, Tile startTile, TileGrid grid, int width, int height, float speed, float health, int cash) {
 		
-		health += contor;
-		contor += 1;
 		this.texture = texture;
 		this.hpBackground = QuickLoad("HPBackground");
 		this.hpForeground = QuickLoad("HPForeground");
@@ -82,9 +97,14 @@ public class Enemy implements Entity {
 		populateCheckpointList();
 		enemyHealth = new UI();
 	}
-	
+	/**
+	 * The update method. First, it verifies if it's the first time this class is updated and if so do nothing.
+	 * Then checks if there are more checkpoints before going ahead. If it hasn't reached a checkpoint, continues on the
+	 * direction it was already going. By the way the direction the enemy can go can only be up, right, down, left in this
+	 * very order.
+	 */
 	public void update() {
-		// verific daca este prima daca cand clasa asta este updatata, si daca da fa nimic
+		// verific daca este prima daca cand clasa asta este updatata, si daca da, nu face nimic
 		if (first) 
 			first = false;
 		else {
@@ -104,13 +124,18 @@ public class Enemy implements Entity {
 		}
 	}
 	
-	// apelata cand ultimul checkpoint este atins de un inamic
+	/**
+	 * This method is only called if an enemy has reached the end, or in other words, if it's reached the last checkpoint.
+	 */
 	private void endOfMazeReached() {
 		Player.modifyLives(-1);
 		die();
 	}
 	
-	
+	/**
+	 * this method verifies if the enemy has reached a checkpoint. Needs to be 5 (arbitrary) pixels away from said checkpoint.
+	 * @return true if reached, false if didn't reach.
+	 */
 	private boolean checkpointReached() {
 		boolean reached = false;
 		Tile t = checkpoints.get(currentCheckpoint).getTile();
@@ -126,7 +151,10 @@ public class Enemy implements Entity {
 		}
 		return reached;
 	}
-	
+	/**
+	 * Add first checkpoint based on startTile. Verify if the next direction / checkpoint exists, finishes after 100 (arbitrary)
+	 * checkpoints.
+	 */
 	private void populateCheckpointList() {
 		// adaug primul checkpoint manual bazat pe startTile
 		checkpoints.add(findNextCheckpoint(startTile, directions = findNextDirection(startTile)));
@@ -136,8 +164,8 @@ public class Enemy implements Entity {
 		
 		while (cont) {
 			int[] currentD = findNextDirection(checkpoints.get(counter).getTile());
-			// verific daca urmatoare directie/checkpoint exista, se termina dupa 20 de checkpoints (arbitrar)
-			if (currentD[0] == 2 || counter == 20) {
+			// verific daca urmatoare directie/checkpoint exista, se termina dupa 100 de checkpoints (arbitrar)
+			if (currentD[0] == 2 || counter == 100) {
 				cont = false;
 			}
 			else {
@@ -147,7 +175,12 @@ public class Enemy implements Entity {
 			counter++;
 		}
 	}
-	
+	/**
+	 * Finds next checkpoint.
+	 * @param s
+	 * @param dir
+	 * @return found checkpoint
+	 */
 	public Checkpoint findNextCheckpoint(Tile s, int[] dir) {
 		Tile next = null;
 		Checkpoint c = null;
@@ -175,7 +208,14 @@ public class Enemy implements Entity {
 		c = new Checkpoint(next, dir[0], dir[1]);
 		return c;
 	}
-	
+	/**
+	 * finds next direction by matching the current tile type with the next tile type. if the tile the enemy that sits on
+	 * is dirt and it was going right, and the tile on it's right is grass, it will look to change direction. first it changes
+	 * to up, if up is also grass, then check right, right is grass, changes to down, if down is dirt, it goes down. lastly it 
+	 * were the check if left is also what it needs but since it found down it goes down.
+	 * @param s
+	 * @return next direction.
+	 */
 	private int[] findNextDirection(Tile s) {		// asta va calcula in ce directie o va lua mobul
 		int[] dir = new int[2];
 		Tile up = grid.getTile(s.getXPlace(), s.getYPlace() - 1);
@@ -208,10 +248,12 @@ public class Enemy implements Entity {
 		return dir;
 	}
 	
-	//ia damage din surse externe
+	/**
+	 * this method is used to calculate the damage the enemy takes.
+	 * @param amount -> if tower A has X damage, the said enemy receives X damage and it's life is modified by + (- X)
+	 */
 	public void damage(int amount) {
-		//if (WaveManager.waveNr / 10 % 10 >= 1)
-			//amount += 5 * (WaveManager.waveNr / 10 % 10);
+		
 		health -= amount;
 		if (health <= 0 && reward == true) {
 			die();
@@ -221,11 +263,15 @@ public class Enemy implements Entity {
 		}
 	}
 	
-	// cand moare inamicul, ii face sa dispara textura de pe ecran
+	/**
+	 * if the enemy dies, alive variable is set to false and when update is called, it gets removed from the arraylist.
+	 */
 	private void die() {
 		alive = false;
 	}
-	
+	/**
+	 * this method draws the enemy with all of it's textures and also it's health points.
+	 */
 	public void draw() {
 		float healthPercentage = health / startHealth;
 		// textura inamicului
@@ -234,18 +280,40 @@ public class Enemy implements Entity {
 		DrawQuadTex(hpBackground, x, y - 16, width, 8);
 		DrawQuadTex(hpForeground, x, y - 16 , TILE_SIZE * healthPercentage, 8);
 		DrawQuadTex(hpBorder, x, y - 16, width, 8);
-		if (getHealth() > 9 && getHealth() < 100)
-			enemyHealth.drawString((int) (x + 18), (int) (y - 45), "" + (int) getHealth());
-		else if (getHealth() <= 9)
-			enemyHealth.drawString((int) (x + 23), (int) (y - 45), "" + (int) getHealth());
-		else if (getHealth() > 99 && getHealth() < 1000)
-			enemyHealth.drawString((int) (x + 11), (int) (y - 45), "" + (int) getHealth());
-		else if (getHealth() > 999 && getHealth() < 10000)
-			enemyHealth.drawString((int) (x + 1), (int) (y - 45), "" + (int) getHealth());
-		else
-			enemyHealth.drawString((int) (x), (int) (y - 45), "" + (int) getHealth());
-	}
+		
+		int xOffset = getXOffsetByHealth(getHealth());
+		enemyHealth.drawString((int) (x + xOffset), (int) (y - 45), "" + (int) getHealth());
+		
+//		if (getHealth() > 9 && getHealth() < 100)
+//			enemyHealth.drawString((int) (x + 18), (int) (y - 45), "" + (int) getHealth());
+//		else if (getHealth() <= 9)
+//			enemyHealth.drawString((int) (x + 23), (int) (y - 45), "" + (int) getHealth());
+//		else if (getHealth() > 99 && getHealth() < 1000)
+//			enemyHealth.drawString((int) (x + 11), (int) (y - 45), "" + (int) getHealth());
+//		else if (getHealth() > 999 && getHealth() < 10000)
+//			enemyHealth.drawString((int) (x + 1), (int) (y - 45), "" + (int) getHealth());
+//		else
+//			enemyHealth.drawString((int) (x), (int) (y - 45), "" + (int) getHealth());
 	
+	}
+	/**
+	 * helps with the spacing of the health points of the enemy
+	 * @param health2
+	 * @return
+	 */
+	public static int getXOffsetByHealth(float health2) {
+		if (health2 > 9 && health2 < 100)
+			return 18;
+		else if (health2 <= 9)
+			return 23;
+		else if (health2 > 99 && health2 < 1000)
+			return 11;
+		else if (health2 > 999 && health2 < 10000)
+			return 1;
+		else
+			return 0;
+	}
+
 	public void reduceHiddenHealth(float amount) {
 		hiddenHealth -= amount;
 	}

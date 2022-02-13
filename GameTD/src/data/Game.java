@@ -10,6 +10,11 @@ import UI.UI;
 import UI.UI.Menu;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
+/**
+ * The class where I draw the literal game and control pretty much everything.
+ * @author Paul
+ *
+ */
 public class Game {
 	
 	private TileGrid grid;
@@ -20,7 +25,18 @@ public class Game {
 	private Texture menuBackground, backButton;
 	private Enemy[] enemyTypes;
 	public static int mapNumber = 0, gameOver = 0, rounds1;
+	public float waitingTimeForFirstWave = 0;
 	
+	/**
+	 * This is my pathfinder.
+	 * The first for in this constructor is used this way: My maps was named Map1, Map2, Map, ..., Map9.
+	 * newMap1 is the custom one. I search if the position from String[] S is the same with the last character from the name
+	 * of Map1 or Map2 or whatever and if so, 2 more fors come in play with the dimension of grid and map, which is 20 x 15,
+	 * 0 to 14 on y coord and 0 to 19 on x coord, I only check of borders of the map hence 
+	 * if (i == 0 || i == 14 || j == 0 || j == 19), then if I find a dirt tile, that is the start tile for the enemies.
+	 * Then I call all of the other things such as WaveManager, Player, gameUI etc.
+	 * @param grid
+	 */
 	public Game(TileGrid grid) {
 		int x = 0, y = 0, ok1 = 0, ok2 = 0;
 		this.grid = grid;
@@ -39,7 +55,6 @@ public class Game {
 				break;
 			}
 			
-			
 			if(c.equals("customMap") || StateManager.map.substring(StateManager.map.length() - 1, StateManager.map.length()).equals(c)) {
 				for (int i = 0; i < 15; i++) {
 					for (int j = 0; j < 20; j++) {
@@ -53,7 +68,7 @@ public class Game {
 								enemyTypes[2] = new EnemyFlame(x, y, grid);
 								enemyTypes[3] = new EnemyImp(x, y, grid);
 								
-								System.out.println(c);
+								//System.out.println(c);
 								if (c.equals("customMap"))
 									mapNumber = 10;
 								else
@@ -75,7 +90,7 @@ public class Game {
 			
 		}
 		
-		waveManager = new WaveManager(enemyTypes, 0.5f, 2);
+		waveManager = new WaveManager(enemyTypes, 0.5f);
 	    player = new Player(grid, waveManager);
 	    player.setup();
 	    gameUI = new UI();
@@ -84,7 +99,9 @@ public class Game {
 	    this.menuBackground = QuickLoad("menu_background");
 	    this.backButton = QuickLoad("BackButton");
 	}
-	
+	/**
+	 * Makes clickable button for the towers
+	 */
 	private void setupUI() {
 		gameUI = new UI();
 		gameUI.createMenu("TowerPicker", 1280, 115, 192, 960, 2, 0);
@@ -100,10 +117,13 @@ public class Game {
 		backButtonMenu = backUI.getMenu("BackButton");
 		backButtonMenu.quickAdd("Back", "BackButton");
 	}
-	
+	/**
+	 * This is where I calculate how many waves I want. Also can click on towers now.
+	 */
 	public void updateUI() {
 		gameUI.draw();
-		if(mapNumber == 10)		// pentru mapa custom
+		
+		if (mapNumber == 10)		// pentru mapa custom
 			gameUI.drawString(1310, 850, "Wave: " + waveManager.getWaveNumber()); 
 		else {
 			Integer rounds = 30 + 5 * (mapNumber - 1);

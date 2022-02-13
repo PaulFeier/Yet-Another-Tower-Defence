@@ -12,7 +12,11 @@ import org.newdawn.slick.opengl.Texture;
 import UI.UI;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
-
+/**
+ * Main menu for this game with PLAY, EDITOR and QUIT options.
+ * @author Paul
+ *
+ */
 public class MainMenu {
 	
 	private Texture background;
@@ -27,10 +31,12 @@ public class MainMenu {
 		menuUI.addButton("Quit", "QuitButton", WIDTH / 2 - 148, (int) (HEIGHT * 0.77f));		//arbitrar
 	}
 	
-	// Verific daca un buton este apasat de utilizator, si daca da fa o actiune
+	/**
+	 * Verifies if a button is pressed, if so do an action.
+	 */
 	private void updateButtons() {
 		menuUI.draw();
-		//menuUI.drawString(550, 850, "PRESS 'R' TO RESTART");
+		menuUI.drawString(550, 850, "PRESS 'R' TO RESTART");
 		if(Mouse.next()) {
 			if (Mouse.isButtonDown(0) && !mouseClicked) {
 				mouseClicked = Mouse.isButtonDown(0);

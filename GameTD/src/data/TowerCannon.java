@@ -7,7 +7,9 @@ public class TowerCannon extends Tower {
 	public TowerCannon(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
 		super(type, startTile, enemies);
 	}
-	
+	/**
+	 * this overrides shoot with cannon's properties.
+	 */
 	@Override
 	public void shoot(Enemy target) {
 		super.projectiles.add(new ProjectileCannonBall(super.type.projectile, super.target,

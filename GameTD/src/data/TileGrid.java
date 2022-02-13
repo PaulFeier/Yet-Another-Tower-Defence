@@ -1,15 +1,21 @@
 package data;
 
 import static helpers.Artist.TILE_SIZE;
-
+/**
+ * This is where you can make the map also the custom map.
+ * @author Paul
+ *
+ */
 public class TileGrid {
 	
 	public Tile[][] map;
 	private int tilesWide, tilesHigh;
-	
+	/**
+	 * default map where every tile is grass.
+	 */
 	public TileGrid() {
-		this.tilesWide = 20;	// [20][15] deoarece 1280 / TILE_SIZE = 20
-		this.tilesHigh = 15;	// [20][15] deoarece 960 / TILE_SIZE = 15;
+		this.tilesWide = 20;	// [20][15] because 1280 / TILE_SIZE = 20
+		this.tilesHigh = 15;	// [20][15] because 960 / TILE_SIZE = 15;
 		map = new Tile[tilesWide][tilesHigh];
 		for (int i = 0; i < map.length; i++) {
 			for (int j = 0; j < map[i].length; j++) {
@@ -17,6 +23,10 @@ public class TileGrid {
 			}
 		}
 	}
+	/**
+	 * this is where the player makes the custom map by his desire.
+	 * @param newMap -> custom map
+	 */
 	public TileGrid(int[][] newMap) {
 		this.tilesWide = newMap[0].length;
 		this.tilesHigh = newMap.length;

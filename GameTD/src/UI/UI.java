@@ -10,7 +10,11 @@ import java.util.ArrayList;
 
 import org.lwjgl.input.Mouse;
 import org.newdawn.slick.TrueTypeFont;
-
+/**
+ * All kind of UI from buttons to font size and appearance.
+ * @author Paul
+ *
+ */
 @SuppressWarnings("deprecation")
 public class UI {
 	
@@ -34,6 +38,11 @@ public class UI {
 		buttonList.add(new Button(name, QuickLoad(textureName), x, y));
 	}
 	
+	/**
+	 * if the actual button is clicked by the user.
+	 * @param buttonName
+	 * @return true if clicked, false otherwise.
+	 */
 	public boolean isButtonClicked(String buttonName) {
 		try {
 			Button b = getButton(buttonName);
@@ -50,7 +59,12 @@ public class UI {
 		return false;
 	}
 	
-	private Button getButton(String buttonName) {
+	/**
+	 * getter for said button
+	 * @param buttonName -> said button
+	 * @return said button
+	 */
+	public Button getButton(String buttonName) {
 		for (Button b: buttonList) {
 			if (b.getName().equals(buttonName)) {
 				return b;
@@ -60,6 +74,16 @@ public class UI {
 		return null;
 	}
 	
+	/**
+	 * creates a new menu for new buttons
+	 * @param name
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @param optionsWidth
+	 * @param optionsHeight
+	 */
 	public void createMenu(String name, int x, int y, int width, int height, int optionsWidth, int optionsHeight) {
 		menuList.add(new Menu(name, x, y, width, height, optionsWidth, optionsHeight));
 	}

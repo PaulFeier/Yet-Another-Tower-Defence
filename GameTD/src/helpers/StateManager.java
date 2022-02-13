@@ -8,7 +8,14 @@ import data.GameOver;
 import data.GameWon;
 import data.MainMenu;
 import data.MapsMenu;
-
+import data.WaveManager;
+/**
+ * This is the game state. There is mainmenu, game, editor, maps, gameover, gamewon.
+ * mainmenu is for the main menu, game for the game itself, editor for the custom map building, maps for the predefined maps
+ * that there are in the game, gameover when player loses, gamewon when player wins.
+ * @author Paul
+ *
+ */
 public class StateManager {
 	
 	public static enum GameState {
@@ -26,7 +33,7 @@ public class StateManager {
 	public static long nextSecond = System.currentTimeMillis() + 1000;	
 	public static int framesInLastSecond = 0;
 	public static int framesInCurrentSecond = 0;
-	public static String map = "newMap1";			// default
+	public static String map = "customMap";			// default
 			
 	public static void update() {
 		switch(gameState) {
@@ -91,6 +98,7 @@ public class StateManager {
 	public static void resetGame() {
 		Game.mapNumber = 0;
 		game = null;
+		WaveManager.waveNr = 0;
 	}
 	
 	public static void setMap(String map1) {

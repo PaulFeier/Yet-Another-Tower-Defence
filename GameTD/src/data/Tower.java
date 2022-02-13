@@ -12,7 +12,11 @@ import org.lwjgl.input.Mouse;
 import org.newdawn.slick.opengl.Texture;
 
 import UI.UI;
-
+/**
+ * The superclass for the towers.
+ * @author Paul
+ *
+ */
 public abstract class Tower implements Entity{
 	
 	private float x, y, timeSinceLastShot, firingSpeed, angle;
@@ -29,6 +33,12 @@ public abstract class Tower implements Entity{
 	private Texture towerUI, cannonUI, ballistaUI, freezerUI, wizardUI, chickenUI, orcUI;
 	private UI buttonsUI = new UI();
 	
+	/**
+	 * constructor that puts everything on default.
+	 * @param type
+	 * @param startTile
+	 * @param enemies
+	 */
 	public Tower(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
 		this.type = type;
 		this.textures = type.textures;
@@ -55,6 +65,10 @@ public abstract class Tower implements Entity{
 		orcUI = QuickLoad("orc");
 	}
 	
+	/**
+	 * acquires target and checks if it's in range.
+	 * @return
+	 */
 	private Enemy acquireTarget() {
 		Enemy closest = null;
 		// distanta arbitrara, sa ajute la sortarea distantelor inamicului
@@ -74,6 +88,11 @@ public abstract class Tower implements Entity{
 		return closest;
 	}
 	
+	/**
+	 * checks if it has range
+	 * @param e -> enemy
+	 * @return true if it is in range, false otherwise.
+	 */
 	private boolean isInRange(Enemy e) {
 		float xDistance = Math.abs(e.getX() - x);
 		float yDistance = Math.abs(e.getY() - y);
@@ -81,20 +100,32 @@ public abstract class Tower implements Entity{
 			return true;
 		return false;
 	}
-
+	
+	/**
+	 * find the distance from tower to enemy
+	 * @param e -> enemy
+	 * @return the distance from tower to enemy;
+	 */
 	private float findDistance(Enemy e) {
 		float xDistance = Math.abs(e.getX() - x);
 		float yDistance = Math.abs(e.getY() - y);
 		return xDistance + yDistance;
 	}
 	
+	/**
+	 * calculate the angle of which to shoot the enemy at. also makes the tower rotate aroun the enemy;
+	 * @return
+	 */
 	private float calculateAngle() {
 		double angleTemp = Math.atan2(target.getY() - y, target.getX() - x);
 		return (float) Math.toDegrees(angleTemp) + 90;	// aici este arbitrar, depinde de design
 		
 	}
 	
-	// subprogram abstract pentru shoot, trebuie sa fie overriden in subclase
+	/**
+	 * abstract method for shoot, must be overriden in subclasses.
+	 * @param target
+	 */
 	public abstract void shoot(Enemy target);
 	
 	public void shoot() {
@@ -105,6 +136,10 @@ public abstract class Tower implements Entity{
 		enemies = newList;
 	}
 	
+	/**
+	 * update method, checks if there is no targer, then find target.
+	 * if it's targeted, calculates angle and shoots if has range.
+	 */
 	public void update() {
 		if (!targeted || target.getHiddenHealth() <= 0) {	// daca nu este target, atunci gaseste un target
 			target = acquireTarget();
@@ -127,7 +162,9 @@ public abstract class Tower implements Entity{
 		
 		draw();
 	}
-
+	/**
+	 * draws the tower. the tower has a base texture and a top texture. the top texture can rotate.
+	 */
 	public void draw() {
 		DrawQuadTex(textures[0], x, y, width, height);
 		if (textures.length > 1)
@@ -144,6 +181,9 @@ public abstract class Tower implements Entity{
 		return null;
 	}
 	
+	/**
+	 * this is used to upgrade the clicked tower.
+	 */
 	public void drawDisplayedTower() {
 		if (displayedTower != null) {
 			DrawQuadTex(towerUI, 1295, 450, 250, 167 * 2 + 200);
@@ -190,7 +230,9 @@ public abstract class Tower implements Entity{
 	public void resetDisplayTower() {
 		displayedTower = null;
 	}
-	
+	/**
+	 * helps upgrading the selected tower.
+	 */
 	private void updateButtons() {
 		buttonsUI.draw();
 		if(Mouse.next()) {

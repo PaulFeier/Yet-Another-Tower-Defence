@@ -7,7 +7,9 @@ public class TowerChicken extends Tower{
 	public TowerChicken(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
 		super(type, startTile, enemies);
 	}
-
+	/**
+	 * this overrides shoot with chicken's properties.
+	 */
 	@Override
 	public void shoot(Enemy target) {
 		super.projectiles.add(new ProjectileFireball(super.type.projectile, super.target,

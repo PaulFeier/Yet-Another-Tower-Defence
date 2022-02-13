@@ -1,5 +1,9 @@
 package data;
-
+/**
+ * Interface used to help with some methods.
+ * @author Paul
+ *
+ */
 public interface Entity {
 	public float getX();
 	public float getY();

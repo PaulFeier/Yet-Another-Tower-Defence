@@ -7,9 +7,18 @@ import java.util.Scanner;
 import data.Tile;
 import data.TileGrid;
 import data.TileType;
-
+/**
+ * for the custom map
+ * @author Paul
+ *
+ */
 public class Leveler {
 	
+	/**
+	 * saves the player's custom map.
+	 * @param mapName
+	 * @param grid
+	 */
 	public static void saveMap(String mapName, TileGrid grid) {
 		String mapData = "";
 		for (int i = 0; i < grid.getTilesWide(); i++) {		
@@ -30,6 +39,11 @@ public class Leveler {
 		}
 	}
 	
+	/**
+	 * loads the player's custom map in real time.
+	 * @param mapName
+	 * @return
+	 */
 	public static TileGrid loadMap(String mapName) {
 		TileGrid grid = new TileGrid();
 		try {

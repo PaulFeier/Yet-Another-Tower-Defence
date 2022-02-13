@@ -13,7 +13,7 @@ public class Player {
 
 	private TileGrid grid;
 	private TileType[] types;	// tipurile de tiles din joc (grass, dirt, water) cum schimb indexu, se schimba si tileu
-	private WaveManager waveManager;
+	public static WaveManager waveManager;
 	public static ArrayList<Tower> towerList;
 	private Tower tempTower;
 	private boolean leftMouseButtonDown, holdingTower;
@@ -25,7 +25,7 @@ public class Player {
 		this.types[0] = TileType.Grass;
 		this.types[1] = TileType.Dirt;
 		this.types[2] = TileType.Water;
-		this.waveManager = waveManager;
+		Player.waveManager = waveManager;
 		towerList = new ArrayList<Tower>();
 		this.leftMouseButtonDown = false;
 		this.holdingTower = false;
@@ -33,13 +33,20 @@ public class Player {
 		Cash = 0;
 		Lives = 0;
 	}
-	
+	/**
+	 * initialise cash and lives
+	 */
 	// initializez cash si lives values pentru jucator
 	public void setup() {
 		Cash = 100;
 		Lives = 10;
 	}
 	
+	/**
+	 * Verifiy if the player has enough money to buy the clicked tower.
+	 * @param amount -> if cash is < amount, can't afford to buy.
+	 * @return true if can buy, false if can't.
+	 */
 	// verfic daca pot cumpara turnul respectiv
 	public static boolean modifyCash(int amount) {
 		if (Cash + amount >= 0) {
@@ -48,11 +55,16 @@ public class Player {
 		}
 		return false;
 	}
-	
+	/**
+	 * When an enemy dies, the player loses lives.
+	 * @param amount
+	 */
 	public static void modifyLives(int amount) {
 		Lives += amount;	// fac asa ca atunci cand pierd viata, voi aduna cu - .
 	}
-	
+	/**
+	 * update method used to help with placing the towers on the grid.
+	 */
 	public void update() {
 		
 		//Updateaza holdingTower
@@ -88,7 +100,9 @@ public class Player {
 				Clock.ChangeMultiplier(-0.2f);
 		}
 	}
-	
+	/**
+	 * helps placing the tower on the map.
+	 */
 	private void placeTower() {
 		Tile currentTile = getMouseTile();
 		if (holdingTower && tempTower != null) {

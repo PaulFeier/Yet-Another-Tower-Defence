@@ -9,7 +9,11 @@ import org.newdawn.slick.opengl.Texture;
 import UI.UI;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
-
+/**
+ * After the PLAY button is pressed, another menu pops up with 10 maps, the 10th being the custom one.
+ * @author Paul
+ *
+ */
 public class MapsMenu {
 
 	private Texture background;

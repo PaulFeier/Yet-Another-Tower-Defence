@@ -3,7 +3,11 @@ package data;
 import static helpers.Artist.QuickLoad;
 
 import org.newdawn.slick.opengl.Texture;
-
+/**
+ * Enum for the ProjectileType with their properties.
+ * @author Paul
+ *
+ */
 public enum ProjectileType {
 	
 	CannonBall(QuickLoad("CannonBall64"), 2, 700),

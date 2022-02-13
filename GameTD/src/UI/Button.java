@@ -1,7 +1,11 @@
 package UI;
 
 import org.newdawn.slick.opengl.Texture;
-
+/**
+ * this class makes textures actual clickable buttons.
+ * @author Paul
+ *
+ */
 public class Button {
 	
 	private String name;

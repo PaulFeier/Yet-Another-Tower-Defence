@@ -7,7 +7,9 @@ public class TowerOrc extends Tower{
 	public TowerOrc(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
 		super(type, startTile, enemies);
 	}
-
+	/**
+	 * this overrides shoot with orc's properties.
+	 */
 	@Override
 	public void shoot(Enemy target) {
 		super.projectiles.add(new ProjectileFireball(super.type.projectile, super.target,

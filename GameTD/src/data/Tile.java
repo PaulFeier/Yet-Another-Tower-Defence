@@ -5,7 +5,11 @@ import static helpers.Artist.QuickLoad;
 import static helpers.Artist.TILE_SIZE;
 
 import org.newdawn.slick.opengl.Texture;
-
+/**
+ * Pretty much tile construction.
+ * @author Paul
+ *
+ */
 public class Tile {
 
 	private float x, y;

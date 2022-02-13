@@ -9,7 +9,11 @@ import org.newdawn.slick.opengl.Texture;
 import UI.UI;
 import helpers.StateManager;
 import helpers.StateManager.GameState;
-
+/**
+ * When the player loses, the PC 'laughs' and displays a funny image mocking you.
+ * @author Paul
+ *
+ */
 public class GameOver {
 	private Texture background;
 	private UI menuUI;

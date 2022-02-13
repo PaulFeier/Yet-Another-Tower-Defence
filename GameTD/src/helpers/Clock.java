@@ -7,11 +7,18 @@ public class Clock {
 	private static boolean paused = false;
 	public static long lastFrame, totalTime;
 	public static float d = 0, multiplier = 1;
-	
+	/**
+	 * local time
+	 * @return local time
+	 */
 	public static long getTime() {
 		return Sys.getTime() * 1000 / Sys.getTimerResolution();
 	}
-	
+	/**
+	 * getDelta is very useful in helping me determine real life seconds for example tower A shoots once every 2.1 seconds
+	 * hence that's a float value.
+	 * @return
+	 */
 	public static float getDelta() {
 		long currentTime = getTime();
 		int delta = (int) (currentTime - lastFrame);
@@ -40,7 +47,10 @@ public class Clock {
 		d = getDelta();
 		totalTime += d;
 	}
-	
+	/**
+	 * for the game to run faster
+	 * @param change
+	 */
 	public static void ChangeMultiplier(float change) {
 		if (multiplier + change < -10 && multiplier + change > 10) {
 			

@@ -9,11 +9,12 @@ import helpers.Clock;
 import helpers.StateManager;
 
 public class Boot {
-
+	/**
+	 * This method is the main class which starts the game.
+	 */
 	public Boot() {
-
+		
 		BeginSession();
-
 		while (!Display.isCloseRequested()) { // cat timp merge jocul
 			Clock.Update();
 			StateManager.update();

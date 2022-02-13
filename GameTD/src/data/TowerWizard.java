@@ -7,7 +7,9 @@ public class TowerWizard extends Tower{
 	public TowerWizard(TowerType type, Tile startTile, CopyOnWriteArrayList<Enemy> enemies) {
 		super(type, startTile, enemies);
 	}
-	
+	/**
+	 * this overrides shoot with wizard's properties.
+	 */
 	@Override
 	public void shoot(Enemy target) {
 		super.projectiles.add(new ProjectileFireball(super.type.projectile, super.target,
